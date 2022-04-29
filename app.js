@@ -47,23 +47,13 @@ function create() {
 
 	cursors = this.input.keyboard.createCursorKeys()
 	// Step 4.3 code goes here
-	const speed = 160
-	if (cursors.left.isDown) {
-		player.setVelocityX(-speed)
-		player.anims.play('left', true)
-	} else if (cursors.right.isDown) {
-		player.setVelocityX(speed)
-		player.anims.play('right', true)
-	} else {
-		player.setVelocityX(0)
-		player.anims.play('turn')
-	}
-	if (cursors.up.isDown && player.body.touching.down)
-		player.setVelocityY(-330)
+	this.physics.add.collider(player, platforms)
 	// Step 5.1 code goes here
-
+	stars = this.physics.add.group({ key: 'star', repeat: 11, setXY: { x: 12, y: 0, stepX: 70 } })
+	stars.children.iterate(star => star.setBounceY(Phaser.Math.FloatBetween(0.2, 0.3)))
+	this.physics.add.collider(stars, platforms)
 	// Step 5.2 code goes here
-
+	this.physics.add.overlap(player, stars, collectStar, null, this)
 	// Step 6.1 code goes here
 
 	// Step 7.1 code goes here
