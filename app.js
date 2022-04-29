@@ -5,7 +5,7 @@ const game = new Phaser.Game({
 	physics: {
 	default: 'arcade',
 	arcade: {
-		gravity: { y: 300 },
+		gravity: { y: 500 },
 		debug: false
 	}
 	},
@@ -84,10 +84,10 @@ function update() {
 	if(cursors.space.isDown) {
 		if(!pressed) {
 			if(player.body.touching.down) {
-				player.setVelocityY(-330);
+				player.setVelocityY(-300);
 			}
 			else if(dbjump == 0) {
-				player.setVelocityY(-330);
+				player.setVelocityY(-300);
 				dbjump = 1;
 			}
 		}
