@@ -15,13 +15,21 @@ const game = new Phaser.Game({
 // arrow function is not allowed, because of `this` binding
 function preload() {
   // Step 1.1 code goes here
-
+  this.load.setBaseURL('https://labs.phaser.io')
+  this.load.image('sky', 'src/games/firstgame/assets/sky.png')
+  this.load.image('ground', 'src/games/firstgame/assets/platform.png')
+  this.load.image('star', 'src/games/firstgame/assets/star.png')
+  this.load.image('bomb', 'src/games/firstgame/assets/bomb.png')
+  this.load.spritesheet('dude',
+    'src/games/firstgame/assets/dude.png',
+    { frameWidth: 32, frameHeight: 48 }
+  )
   // Step 8.1 code goes here
 }
 
 function create() {
   // Step 1.2 code goes here
-
+  this.add.image(400, 300, 'sky')
   // Step 2 code goes here
 
   // Step 3 code goes here
