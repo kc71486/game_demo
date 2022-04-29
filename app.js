@@ -25,6 +25,7 @@ function preload() {
 		{ frameWidth: 32, frameHeight: 48 }
 	)
 	// Step 8.1 code goes here
+	this.load.audioSprite('sfx', 'assets/audio/SoundEffects/fx_mixdown.json')
 }
 
 function create() {
@@ -55,8 +56,12 @@ function create() {
 	// Step 5.2 code goes here
 	this.physics.add.overlap(player, stars, collectStar, null, this)
 	// Step 6.1 code goes here
-
+	score = 0
+	scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' })
 	// Step 7.1 code goes here
+	bombs = this.physics.add.group()
+	this.physics.add.collider(bombs, platforms)
+	this.physics.add.collider(player, bombs, hitBomb, null, this)
 }
 
 function update() {
@@ -72,7 +77,7 @@ function update() {
 		player.setVelocityX(0)
 		player.anims.play('turn')
 	}
-	if (cursors.up.isDown && player.body.touching.down)
+	if (cursors.space.isDown && player.body.touching.down)
 		player.setVelocityY(-330)
 }
 
@@ -80,16 +85,28 @@ function collectStar(player, star) {
 	star.disableBody(true, true)
 
 	// Step 6.2 code goes here
-
+	score += 10
+	scoreText.setText('Score: ' + score)
 	// Step 7.2 code goes here
-
+	if (0 == stars.countActive(true)) {
+		stars.children.iterate(star => star.enableBody(true, star.x, 0, true, true))
+		let x = player.x < 400 ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400)
+		let bomb = bombs.create(x, 16, 'bomb')
+		bomb.setBounce(1)
+		bomb.setCollideWorldBounds(true)
+		bomb.setVelocity(Phaser.Math.Between(-200, 200), 20)
+	}
 	// Step 8.2 code goes here
+	this.sound.playAudioSprite('sfx', 'ping')
 }
 
 function hitBomb(player, bomb) {
 	gameOver = true
 
 	// Step 7.3 code goes here
-
+	this.physics.pause()
+	player.anims.play('turn')
+	player.setTint(0xff0000)
 	// Step 8.3 code goes here
+	this.sound.playAudioSprite('sfx', 'death')
 }
