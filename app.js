@@ -11,7 +11,8 @@ const game = new Phaser.Game({
 	},
 	scene: { create, preload, update },
 })
-jumpcount = 0;
+dbjump = 0;
+pressed = false;
 // arrow function is not allowed, because of `this` binding
 function preload() {
 	// Step 1.1 code goes here
@@ -78,14 +79,22 @@ function update() {
 		player.anims.play('turn')
 	}
 	if(player.body.touching.down) {
-		jumpcount = 0;
+		dbjump = 0;
 	}
-	if (cursors.space.isDown && player.body.touching.down) {
-		player.setVelocityY(-330);
+	if(cursors.space.isDown) {
+		if(!pressed) {
+			if(player.body.touching.down) {
+				player.setVelocityY(-330);
+			}
+			else if(dbjump == 0) {
+				player.setVelocityY(-330);
+				dbjump = 1;
+			}
+		}
+		pressed = true;
 	}
-	else if(cursors.space.isDown && jumpcount == 0) {
-		player.setVelocityY(-330);
-		jumpcount = 1;
+	else {
+		pressed = false;
 	}
 }
 
