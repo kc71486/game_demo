@@ -11,7 +11,7 @@ const game = new Phaser.Game({
 	},
 	scene: { create, preload, update },
 })
-
+jumpcount = 0;
 // arrow function is not allowed, because of `this` binding
 function preload() {
 	// Step 1.1 code goes here
@@ -77,8 +77,16 @@ function update() {
 		player.setVelocityX(0)
 		player.anims.play('turn')
 	}
-	if (cursors.space.isDown && player.body.touching.down)
-		player.setVelocityY(-330)
+	if(player.body.touching.down) {
+		jumpcount = 0;
+	}
+	if (cursors.space.isDown && player.body.touching.down) {
+		player.setVelocityY(-330);
+	}
+	else if(cursors.space.isDown && jumpcount == 0) {
+		player.setVelocityY(-330);
+		jumpcount = 1;
+	}
 }
 
 function collectStar(player, star) {
