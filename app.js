@@ -55,7 +55,8 @@ function create() {
 	// Step 5.2 code goes here
 	this.physics.add.overlap(player, stars, collectStar, null, this)
 	// Step 6.1 code goes here
-
+	score = 0
+	scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' })
 	// Step 7.1 code goes here
 }
 
@@ -80,7 +81,8 @@ function collectStar(player, star) {
 	star.disableBody(true, true)
 
 	// Step 6.2 code goes here
-
+	score += 10
+	scoreText.setText('Score: ' + score)
 	// Step 7.2 code goes here
 
 	// Step 8.2 code goes here
